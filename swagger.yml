@@ -1,0 +1,176 @@
+openapi: 3.0.3
+info:
+  title: USERS SERVICE API
+  version: 1.0.0
+servers:
+  - url: '{API_GATEWAY_DOMAIN}/api/v1/users'
+tags:
+  - name: auth
+    description: Authentication
+paths:
+  /auth/login:
+    post:
+      tags:
+        - auth
+      summary: Login to the application
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                account:
+                  type: string
+                  description: User's account (email, phone, or username)
+                  example: user@example.com
+                password:
+                  type: string
+                  description: User's password
+                  example: secret_password
+              required:
+                - account
+                - password
+      responses:
+        '200':
+          description: Successful login
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  code:
+                    type: integer
+                    example: 200
+                  data:
+                    type: object
+                    properties:
+                      token:
+                        type: string
+                        description: Access token
+                        example: string
+        '400':
+          description: ERROR
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /auth/verify-token:
+    get:
+      tags:
+        - auth
+      summary: Verify user's access token
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Token verification successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '401':
+          description: Unauthorized (e.g., invalid token or token expired)
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ErrorResponse'
+                  - type: object
+                    properties:
+                      code:
+                        type: integer
+                        example: 401
+                      error:
+                        type: object
+                        properties:
+                          type:
+                            type: 'string'
+                            example: TOKEN_NOT_FOUND | TOKEN_INVALID_FORMAT | TOKEN_EXPIRED | TOKEN_INVALID
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: The unique identifier for the user.
+        first_name:
+          type: string
+          maxLength: 50
+          description: The first name of the user.
+        last_name:
+          type: string
+          maxLength: 50
+          description: The last name of the user.
+        username:
+          type: string
+          maxLength: 255
+          uniqueItems: true
+          description: The username of the user.
+        email:
+          type: string
+          maxLength: 255
+          format: email
+          uniqueItems: true
+          description: The email address of the user.
+        phone:
+          type: string
+          maxLength: 15
+          uniqueItems: true
+          description: The phone number of the user.
+        role:
+          type: integer
+          format: int32
+          enum: [2, 1]
+          description: '1: Admin, 2: User'
+        email_verified_at:
+          type: string
+          format: date-time
+          description: The timestamp when the email was verified.
+        phone_verified_at:
+          type: string
+          format: date-time
+          description: The timestamp when the phone number was verified.
+        status:
+          type: integer
+          format: int32
+          enum: [1, 0]
+          description: 'The status of the user. (0: Inactive, 1: Active)'
+        created_at:
+          type: string
+          format: date-time
+          description: The timestamp when the user was created.
+        updated_at:
+          type: string
+          format: date-time
+          description: The timestamp when the user was last updated.
+
+    ErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        code:
+          type: integer
+          example: 400
+        error:
+          type: object
+          properties:
+            type:
+              type: string
+              example: string
+            description:
+              type: string
+              example: string

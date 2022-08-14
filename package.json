@@ -1,0 +1,57 @@
+{
+  "name": "node-app",
+  "version": "1.0.0",
+  "main": "src/app.js",
+  "author": "TSN",
+  "description": "",
+  "type": "module",
+  "engines": {
+    "node": "^18.12.0"
+  },
+  "scripts": {
+    "docker-migrate:up": "../node_modules/.bin/sequelize-cli db:migrate",
+    "docker-migrate:undo": "../node_modules/.bin/sequelize-cli db:migrate:undo",
+    "docker-migration:generate": "../node_modules/.bin/sequelize-cli migration:generate --name $*",
+    "docker-seed:generate": "../node_modules/.bin/sequelize-cli seed:generate --name $*",
+    "docker-seed:all": "../node_modules/.bin/sequelize-cli db:seed:all",
+    "docker-seed:undo": "../node_modules/.bin/sequelize-cli db:seed:undo",
+    "lint": "eslint --ignore-path .gitignore .",
+    "lint:fix": "eslint --ignore-path .gitignore . --fix",
+    "prettier": "prettier --ignore-path .gitignore . --check",
+    "prettier:fix": "prettier --ignore-path .gitignore . --write",
+    "format": "npm run prettier:fix && npm run lint:fix",
+    "prepare": "if [ '$NODE_ENV' = 'development' ]; then husky install; fi"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.20.1",
+    "compression": "^1.7.4",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "helmet": "^6.0.0",
+    "joi": "^17.7.0",
+    "jsonwebtoken": "^9.0.1",
+    "morgan": "^1.10.0",
+    "mysql2": "^2.3.3",
+    "sequelize": "^6.25.5",
+    "sequelize-cli": "^6.5.2",
+    "socket.io": "^4.5.3",
+    "winston": "^3.8.2",
+    "winston-daily-rotate-file": "^4.7.1"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^17.2.0",
+    "@commitlint/config-conventional": "^17.2.0",
+    "eslint": "^8.27.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-node": "^4.1.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "husky": "^8.0.2",
+    "lint-staged": "^13.0.3",
+    "nodemon": "^3.0.1",
+    "prettier": "^2.7.1"
+  }
+}
