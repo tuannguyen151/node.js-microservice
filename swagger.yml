@@ -1,0 +1,6 @@
+openapi: 3.0.3
+info:
+  title: ORDERS SERVICE API
+  version: 1.0.0
+servers:
+  - url: '{API_GATEWAY_DOMAIN}/api/v1/orders'
