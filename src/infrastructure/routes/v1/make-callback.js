@@ -1,7 +1,11 @@
 import logger from '../../../logger'
 
 export default (controller) => (req, res) => {
-  const user = req.header('user')
+  const userBase64 = req.header('user')
+
+  const user = userBase64
+    ? JSON.parse(Buffer.from(userBase64, 'base64').toString('utf-8'))
+    : null
 
   const httpRequest = {
     body: req.body,
@@ -10,7 +14,7 @@ export default (controller) => (req, res) => {
     ip: req.ip,
     method: req.method,
     path: req.path,
-    user: user ? JSON.parse(user) : user,
+    user,
     logger: req.logger,
     files: req.files,
     file: req.file,
