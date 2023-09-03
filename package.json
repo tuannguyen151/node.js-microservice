@@ -23,6 +23,7 @@
     "prepare": "if [ '$NODE_ENV' = 'development' ]; then husky install; fi"
   },
   "dependencies": {
+    "amqplib": "^0.10.3",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.1",
     "compression": "^1.7.4",

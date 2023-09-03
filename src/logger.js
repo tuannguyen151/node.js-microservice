@@ -56,6 +56,23 @@ const debugLogger = winston.createLogger({
   exitOnError: false
 })
 
+const rabbitMQInfoLogger = winston.createLogger({
+  level: 'info',
+  format: combine(timestamp(), json()),
+  transports: [
+    new winston.transports.Console(),
+    new DailyRotateFile({
+      filename: 'RabbitMQ.log',
+      dirname: 'logs/%DATE%',
+      datePattern: 'YYYY-MM-DD',
+      zippedArchive: true,
+      maxSize: '5m',
+      maxFiles: '7d'
+    })
+  ],
+  exitOnError: false
+})
+
 const parsingHttpRequest = (req) => {
   // Exclude emal, password
   const { email, password, ...bodyLog } = req.body
@@ -119,3 +136,5 @@ export default {
     debugLogger.debug({ request: parsingHttpRequest(request), debug })
   }
 }
+
+export { rabbitMQInfoLogger }

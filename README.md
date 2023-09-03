@@ -6,6 +6,8 @@ _Author:_ **Foxdemon 💌**
 
 ## ✍ Setup
 
+**NOTE**: If not install RabbitMQ, please install it first at [https://github.com/tuannguyen151/RabbitMQ-docker]
+
 ### Step 1: Copy the .env.example file to .env
 
 ```bash
