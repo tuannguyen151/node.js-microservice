@@ -10,6 +10,8 @@ import { Server } from 'socket.io'
 import router from './infrastructure/routes/v1'
 import initIoRoutes from './infrastructure/io-routes/v1'
 
+import './infrastructure/rabbitmq-listeners/v1'
+
 const SERVICE_NAME = 'orders'
 
 const corsOptions = {
